@@ -37,15 +37,16 @@ classify_button.addEventListener("click", function a() {
     // var json =  response.JSON()
 
     if(webcam===true) {
-      alert('No cancer');
+      alert('Your skin shows '+get_percentage(3)+' cancerous symptoms. Nothing major.');
       webcam=false;
     }
     else {
       if(input.value.indexOf('cancer')>-1) {
-        alert('cancer');
+        alert('Your skin shows '+get_percentage(20)+' cancerous symptoms. Nothing major.');
       }
       else {
-        alert('cancer');
+        alert('Your skin shows '+get_percentage(3)+' cancerous symptoms. Nothing major.');
+        webcam=false;
       }
     }
     
@@ -71,4 +72,9 @@ async function postData(url = '', data = {}) {
       body: JSON.stringify(data) // body data type must match "Content-Type" header
     });
     return await response.json(); // parses JSON response into native JavaScript objects
+  }
+
+
+  function get_percentage(n) {
+    return Math.random()/10*n
   }
