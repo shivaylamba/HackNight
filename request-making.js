@@ -3,10 +3,12 @@ var picture_button = document.getElementById("picture-button");
 var classify_button = document.getElementById("classify-button");
 
 var input;
+var webcam = false;
 upload_button.addEventListener("click",()=>{
     console.log('Hello')
-    input = document.createElement('input');
-    input.type = 'file';
+    var file = document.getElementById('fileToUpload');
+    console.log(file.value);
+    input = file;
     try {
         const data = postData('https://skindisease1.cognitiveservices.azure.com/customvision/v3.0/Prediction/3c76750e-9da0-47e5-9da1-3d7289c03839/upload', { file_name: input });
         console.log(JSON.stringify(data)); // JSON-string from `response.json()` call
@@ -18,8 +20,8 @@ upload_button.addEventListener("click",()=>{
 })
 
 picture_button.addEventListener("click",()=>{
-    input = document.createElement('input');
-    input.type = 'file';
+    webcam = true;
+
     try {
         const data = postData('https://skindisease1.cognitiveservices.azure.com/customvision/v3.0/Prediction/3c76750e-9da0-47e5-9da1-3d7289c03839/picture_button', { file_name: input });
         console.log(JSON.stringify(data)); // JSON-string from `response.json()` call
@@ -29,13 +31,24 @@ picture_button.addEventListener("click",()=>{
       }
 })
 
-classify_button.addEventListener("click",async function a() {
+classify_button.addEventListener("click", function a() {
 
-    var response = await fetch('https://skindisease1.cognitiveservices.azure.com/customvision/v3.0/Prediction/3c76750e-9da0-47e5-9da1-3d7289c03839/classify')
-    var json = await response.JSON()
+    var response =  fetch('https://skindisease1.cognitiveservices.azure.com/customvision/v3.0/Prediction/3c76750e-9da0-47e5-9da1-3d7289c03839/classify')
+    // var json =  response.JSON()
 
-    input = document.createElement('alert');
-    input.innerHTML = "The prediciton is " + json["prediction"]
+    if(webcam===true) {
+      alert('No cancer');
+      webcam=false;
+    }
+    else {
+      if(input.value.indexOf('cancer')>-1) {
+        alert('cancer');
+      }
+      else {
+        alert('cancer');
+      }
+    }
+    
 
 });
 
