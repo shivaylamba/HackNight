@@ -2,17 +2,17 @@ var upload_button = document.getElementById("module-button");
 var picture_button = document.getElementById("picture-button");
 var classify_button = document.getElementById("classify-button");
 
-var input;
+var input123='*';
 var webcam = false;
 upload_button.addEventListener("click",()=>{
     console.log('Hello')
     var file = document.getElementById('fileToUpload');
     console.log(file.value);
-    input = file;
+    input123 = file.value;
     try {
         const data = postData('https://skindisease1.cognitiveservices.azure.com/customvision/v3.0/Prediction/3c76750e-9da0-47e5-9da1-3d7289c03839/upload', { file_name: input });
         console.log(JSON.stringify(data)); // JSON-string from `response.json()` call
-        input = NaN;
+        input = 'NaN';
       } catch (error) {
         console.error(error);
       }
@@ -25,7 +25,7 @@ picture_button.addEventListener("click",()=>{
     try {
         const data = postData('https://skindisease1.cognitiveservices.azure.com/customvision/v3.0/Prediction/3c76750e-9da0-47e5-9da1-3d7289c03839/picture_button', { file_name: input });
         console.log(JSON.stringify(data)); // JSON-string from `response.json()` call
-        input = NaN;
+        input123 = 'NaN';
       } catch (error) {
         console.error(error);
       }
@@ -41,7 +41,7 @@ classify_button.addEventListener("click", function a() {
       webcam=false;
     }
     else {
-      if(input.value.indexOf('cancer')>-1) {
+      if(input123.indexOf('cancer')>-1) {
         alert('Your skin shows '+get_percentage(20)+' cancerous symptoms. Nothing major.');
       }
       else {
@@ -52,7 +52,9 @@ classify_button.addEventListener("click", function a() {
     
 
 });
-
+function get_percentage(n) {
+  return Math.random()/10*n
+}
 
 async function postData(url = '', data = {}) {
     // Default options are marked with *
@@ -75,6 +77,4 @@ async function postData(url = '', data = {}) {
   }
 
 
-  function get_percentage(n) {
-    return Math.random()/10*n
-  }
+  
