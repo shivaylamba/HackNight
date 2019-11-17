@@ -4,6 +4,15 @@ var classify_button = document.getElementById("classify-button");
 
 var input123='*';
 var webcam = false;
+
+Webcam.attach( '#my_camera' );
+    
+    function take_snapshot() {
+        Webcam.snap( function(data_uri) {
+            document.getElementById('my_result').innerHTML = '<img src="'+data_uri+'"/>';
+        } );
+    }
+
 upload_button.addEventListener("click",()=>{
     console.log('Hello')
     var file = document.getElementById('fileToUpload');
@@ -21,7 +30,7 @@ upload_button.addEventListener("click",()=>{
 
 picture_button.addEventListener("click",()=>{
     webcam = true;
-
+    take_snapshot();
     try {
         const data = postData('https://skindisease1.cognitiveservices.azure.com/customvision/v3.0/Prediction/3c76750e-9da0-47e5-9da1-3d7289c03839/picture_button', { file_name: input });
         console.log(JSON.stringify(data)); // JSON-string from `response.json()` call
@@ -29,6 +38,7 @@ picture_button.addEventListener("click",()=>{
       } catch (error) {
         console.error(error);
       }
+      Webcam.reset('#my_camera');
 })
 
 classify_button.addEventListener("click", function a() {
@@ -42,19 +52,23 @@ classify_button.addEventListener("click", function a() {
     }
     else {
       if(input123.indexOf('cancer')>-1) {
-        alert('Your skin shows '+get_percentage(20)+' cancerous symptoms. Nothing major.');
+        alert('Your skin shows '+get_percentage(200)+' cancerous symptoms. Consult a doctor.');
       }
       else {
         alert('Your skin shows '+get_percentage(3)+' cancerous symptoms. Nothing major.');
         webcam=false;
       }
     }
-    
+
+
+    window.location.reload();    
 
 });
 function get_percentage(n) {
   return Math.random()/10*n
 }
+
+
 
 async function postData(url = '', data = {}) {
     // Default options are marked with *
